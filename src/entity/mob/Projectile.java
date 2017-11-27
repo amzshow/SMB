@@ -2,6 +2,7 @@ package entity.mob;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.FileInputStream;
 
@@ -22,6 +23,7 @@ public class Projectile extends Mob {
 	
 			for(int i = 0; i < 4; i++) {
 				sprites[i] = ImageIO.read(new FileInputStream("resources/images/fireball_"+i+".png"));
+				sprites[i] = Sprite.imageToBufferedImage(sprites[i].getScaledInstance(sprites[i].getWidth(), sprites[i].getHeight(), Image.SCALE_DEFAULT));
 				Sprite.replaceColor(sprites[i], new Color(255,0,255), Game.transparent);
 			}
 			animation = new Animation();
