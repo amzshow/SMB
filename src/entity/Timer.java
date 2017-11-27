@@ -4,6 +4,7 @@ public class Timer {
 
 	private long elapsed;
 	private long lastTime;
+	private int deltaTime;
 	
 	public Timer() {
 		lastTime = System.nanoTime();
@@ -16,7 +17,7 @@ public class Timer {
 	}
 	
 	public void updateTime() {
-		int deltaTime = (int)((System.nanoTime() - lastTime) / 1000000);
+		deltaTime = (int)((System.nanoTime() - lastTime) / 1000000);
 		elapsed = elapsed + deltaTime;
 		lastTime = System.nanoTime();
 	}
@@ -29,6 +30,13 @@ public class Timer {
 		this.elapsed = elapsed;
 	}
 	
+	public int getDeltaTime() {
+		return deltaTime;
+	}
+	
+	public void setDeltaTime(int deltaTime) {
+		this.deltaTime = deltaTime;
+	}
 	
 	
 }
