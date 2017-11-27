@@ -7,6 +7,7 @@ import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 
 import entity.Sprite;
+import entity.Timer;
 import entity.entityID;
 import gameState.GameStateManager;
 import input.Keyboard;
@@ -22,8 +23,8 @@ public class Player extends Mob {
 	// stats
 	private long lastTime = 0;
 	private long elapsed = 0;
-	private long lastTimeD = 0;
-	private long elapsedD = 0;
+	private Timer shootTimer = new Timer();
+	private Timer invincibilityTimer = new Timer();
 	public static int availableLives;
 	public boolean invincible;
 	public static int powerLevel;
@@ -34,7 +35,7 @@ public class Player extends Mob {
 		init();
 		if(image == null)
 			image = new BufferedImage(32,32,1);
-		lastTime = System.nanoTime();
+		invincibilityTimer.reset();
 	}
 	
 	private float maxSpeed;
@@ -51,7 +52,7 @@ public class Player extends Mob {
 		crouching = false;
 		availableLives = 3;
 		invincible = false;
-		powerLevel = 0;
+		powerLevel = 2;
 		defaultMaxSpeed = 5f;
 		maxSpeed = defaultMaxSpeed;
 		runMaxSpeed = defaultMaxSpeed * 1.6f;
@@ -88,10 +89,8 @@ public class Player extends Mob {
 	public void update() {
 		
 		if(invincible) {
-			long deltaTime = (int) ((System.nanoTime() - lastTimeD) / 1000000);
-			elapsed += deltaTime;
-			lastTime = System.nanoTime();
-			if(elapsed > 1000)
+			invincibilityTimer.updateTime();
+			if(invincibilityTimer.getElapsedTime() > 1000)
 				invincible = false;
 		}
 		
@@ -107,6 +106,10 @@ public class Player extends Mob {
 			}
 			return;
 		}
+		
+		if(powerLevel == 2)
+			shootTimer.updateTime();
+		
 		moving = false;
 		if(input.left) {
 			dir = false;
@@ -135,16 +138,13 @@ public class Player extends Mob {
 		else
 			crouching = false;
 		
-		long deltaTimeD = (int) ((System.nanoTime() - lastTimeD) / 1000000);
-		elapsedD += deltaTimeD;
-		lastTimeD = System.nanoTime();
 		if(input.shift) {
 			if(!falling && !jumping)
 				this.maxSpeed = runMaxSpeed;
 			
-			if(powerLevel > 1 && elapsedD > 400) {
+			if(powerLevel > 1 && shootTimer.getElapsedTime() > 400) {
 				shoot();
-				elapsedD = 0;
+				shootTimer.setElapsedTime(0);
 			}
 		}
 		else {
@@ -251,8 +251,10 @@ public class Player extends Mob {
 		if(powerLevel == 1) {
 			animation.setStartStop(14+animation.getStart(), 14+animation.getStop());
 			this.y = this.y - 32;
-		} else
+		} else {
 			animation.setStartStop(21+animation.getStart(), 21+animation.getStop());
+			shootTimer.reset();
+		}
 		image = animation.getImage();
 	}
 
@@ -270,7 +272,7 @@ public class Player extends Mob {
 	public void die() {
 		
 		if(powerLevel > 0) {
-			lastTimeD = System.nanoTime();
+			invincibilityTimer.reset();
 			invincible = true;
 			this.y += 32;
 			powerLevel = 0;
