@@ -5,6 +5,7 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.FileInputStream;
+import java.util.concurrent.CountDownLatch;
 
 import javax.imageio.ImageIO;
 
@@ -15,6 +16,7 @@ import main.Game;
 public class HUD extends Entity{
  
 	Animation animation;
+	private static Timer countdown = new Timer();
 	
 	public HUD(float x, float y) {
 		super(x, y, entityID.Other);
@@ -44,10 +46,8 @@ public class HUD extends Entity{
 	static boolean count = false;
 	public static int time = -1;
 	
-	private static long lastTime = 0;
-	
 	public static void start() {
-		lastTime = System.nanoTime();
+		countdown.reset();
 		count = true;
 	}
 	
@@ -57,14 +57,14 @@ public class HUD extends Entity{
 
 	public void update() {
 		this.x = -Camera.x;
-		if(lastTime == -1)
+		if(count == false)
 			return;
-		if(count) {
-		    long deltaTime = (int) ((System.nanoTime() - lastTime) / 1000000);
-		    if(deltaTime > 500) {
-				lastTime = System.nanoTime();
-				time--;
-			}		
+		else {
+		    countdown.updateTime();
+		    if(countdown.getElapsedTime() > 400) {
+		    	countdown.setElapsedTime(0);
+		    	time--;
+		    }
 		}
 	    animation.update();
 	    image = animation.getImage();
