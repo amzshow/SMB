@@ -39,6 +39,7 @@ public class Level1_1State extends GameState {
 		currentTo = 0;
 		HUD.start();
 		Camera.x = 0;
+		Camera.move = true;
 	}
 
 	public void update() {
