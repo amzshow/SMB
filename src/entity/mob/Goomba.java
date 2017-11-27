@@ -2,6 +2,7 @@ package entity.mob;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.FileInputStream;
 
@@ -26,10 +27,11 @@ public class Goomba extends Mob {
 											ImageIO.read(new FileInputStream("resources/images/goombas_1.png")),
 											ImageIO.read(new FileInputStream("resources/images/goombas_ded.png")),
 										};
-
-			Sprite.replaceColor(sprites[0], new Color(255,0,255), new Color(0,0,0,255));
-			Sprite.replaceColor(sprites[1], new Color(255,0,255), new Color(0,0,0,255));
-			Sprite.replaceColor(sprites[2], new Color(255,0,255), new Color(0,0,0,255));
+			for(int i = 0; i < 3; i++) {
+				sprites[i] = Sprite.imageToBufferedImage(sprites[i].getScaledInstance(sprites[i].getWidth(), sprites[i].getHeight(), Image.SCALE_DEFAULT));
+				Sprite.replaceColor(sprites[i], new Color(255,0,255), Game.transparent);
+			}
+			
 			animation = new Animation();
 			animation.setFrames(sprites);
 			animation.setDelay(200);

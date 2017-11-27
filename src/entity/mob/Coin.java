@@ -3,6 +3,7 @@ package entity.mob;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.io.FileInputStream;
 
 import javax.imageio.ImageIO;
 
@@ -24,9 +25,9 @@ public class Coin extends Mob {
 			else if (GameState.getWorldType() == GameState.Type.Castle)
 				s = "2";
 			
-			sprites[0] = ImageIO.read(Goomba.class.getResource("/images/coin_use" + s + "0.bmp"));
-			sprites[1] = ImageIO.read(Goomba.class.getResource("/images/coin_use" + s + ".bmp"));
-			sprites[2] = ImageIO.read(Goomba.class.getResource("/images/coin_use" + s + "1.bmp"));
+			sprites[0] = ImageIO.read(new FileInputStream("resources/images/coin_use" + s + "0.png"));
+			sprites[1] = ImageIO.read(new FileInputStream("resources/images/coin_use" + s + ".png"));
+			sprites[2] = ImageIO.read(new FileInputStream("resources/images/coin_use" + s + "1.png"));
 			
 			Sprite.replaceColor(sprites[0], new Color(255,0,255), Game.background);
 			Sprite.replaceColor(sprites[1], new Color(255,0,255), Game.background);

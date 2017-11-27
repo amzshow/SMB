@@ -2,13 +2,13 @@ package entity;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.FileInputStream;
 
 import javax.imageio.ImageIO;
 
 import entity.mob.Animation;
-import entity.mob.Mob;
 import gameState.GameStateManager;
 import main.Game;
 
@@ -25,10 +25,10 @@ public class HUD extends Entity{
 					ImageIO.read(new FileInputStream("resources/images/coin_2.png")),
 				};
 
-			Sprite.replaceColor(sprites[0], new Color(255,0,255), new Color(255,0,0,0));
-			Sprite.replaceColor(sprites[1], new Color(255,0,255), new Color(255,0,0,0));
-			Sprite.replaceColor(sprites[2], new Color(255,0,255), new Color(255,0,0,0));
-			System.out.println(sprites[0].getTransparency());
+			for(int i = 0; i < 3; i++) {
+				sprites[i] = Sprite.imageToBufferedImage(sprites[i].getScaledInstance(sprites[i].getWidth(), sprites[i].getHeight(), Image.SCALE_DEFAULT));
+				Sprite.replaceColor(sprites[i], new Color(255,0,255), Game.transparent);
+			}
 			animation = new Animation();
 			animation.setFrames(sprites);
 			animation.setDelay(200);
