@@ -123,7 +123,7 @@ public class Player extends Mob {
 			moveInDirection();
 		}
 		if(input.up && canJump && !falling && !jumping) {
-			dy -= 6.2;
+			dy -= 7;
 			powerupAnimationUpdate(5,6);
 			animation.stopAnimation();
 			jumping = true;
