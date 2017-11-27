@@ -22,8 +22,8 @@ public abstract class Mob extends Entity {
 	protected float moveSpeed;
 	protected boolean canJump = false;
 	protected boolean jumping = false;
-	protected static float gravity = 0.3f;
-	protected static final float MAX_SPEED = 9f; 
+	protected static float gravity = 0.4f;
+	protected static final float MAX_SPEED = 16f; 
 	protected Entity lastCollision = null;
 	
 	protected void move() {
@@ -70,7 +70,7 @@ public abstract class Mob extends Entity {
 							tempEntity.die();
 					}
 					if(this.id == entityID.Projectile && tempEntity.getID() == entityID.Block)
-						this.dy -= 4;
+						this.dy -= 5;
 					return true;
 				} else if(getTop().intersects(tempEntity.getBounds()) && dy < 0) {
 
@@ -111,7 +111,7 @@ public abstract class Mob extends Entity {
 						if(this.id == entityID.Enemy)
 							tempEntity.die();
 					}
-					if(this.id == entityID.Projectile && tempEntity.getID() == entityID.Enemy) {
+					if(this.id == entityID.Projectile && (tempEntity.getID() == entityID.Enemy || tempEntity.getID() == entityID.Player)) {
 						tempEntity.die();
 						this.die();
 					}

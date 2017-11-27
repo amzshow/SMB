@@ -15,6 +15,8 @@ import main.Game;
 
 public class Koopa extends Mob {
 
+	private int state = 1;
+	
 	public Koopa(float x, float y) {
 		super(x, y, entityID.Enemy);
 		init();		
@@ -22,6 +24,7 @@ public class Koopa extends Mob {
 	
 	private void init() {
 		try {
+			moveSpeed = -1;
 			String p = "";
 			if(GameState.getWorldType() == GameState.Type.UnderWorld)
 				p = "1";
@@ -49,7 +52,7 @@ public class Koopa extends Mob {
 
 	@Override
 	public void update() {
-		dx = 0;
+		dx = moveSpeed;
 		move();
 		animation.update();
 		image = animation.getImage();
@@ -62,8 +65,15 @@ public class Koopa extends Mob {
 
 	@Override
 	public void die() {
-		// TODO Auto-generated method stub
-		
+		state--;
+		animation.setStartStop(2, 3);
+		if(state == 0)
+			if(moveSpeed == -1)
+				moveSpeed = 0;
+			else
+				moveSpeed = -1;
+		if(state < 0)
+			Game.handler.removeEntity(this);
 	}
 
 }
