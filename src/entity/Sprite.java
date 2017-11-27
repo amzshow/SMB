@@ -9,8 +9,6 @@ import java.util.LinkedList;
 
 import javax.imageio.ImageIO;
 
-import entity.Entity;
-import entity.mob.Mob;
 import main.Game;
 
 public class Sprite {
@@ -28,7 +26,7 @@ public class Sprite {
 			for(int i = 0; i < 25; i++) {
 				for(int j = 0; j < 21; j++) {
 					temp = image.getSubimage(j * 32, i * 32, 32, 32);
-					temp = imageToBufferedImage(temp.getScaledInstance(32, 32, temp.SCALE_DEFAULT));
+					temp = imageToBufferedImage(temp.getScaledInstance(32, 32, Image.SCALE_DEFAULT));
 					replaceColor(temp, new Color(255,0,255), Game.transparent);
 					sprites.add(temp);
 				}
